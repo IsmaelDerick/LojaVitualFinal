@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    
+<ui:define  name="menu"> 	
+		<h:form>
+			<p:panelMenu style="width:200px" >
+				<p:submenu label="CLIENTE" >
+                                    
+                                    <p:menuitem value="Acesso Cliente" outcome="/cliente/principal.xhtml"
+				icon="ui-icon-home" />
+                                    
+					<p:menuitem value="Pagamento"
+				outcome="/cliente/forma_de_pagamento.xhtml" icon="ui-icon-person" />
+                                        
+                                        <p:menuitem value="Carrinho de Compras"
+                                                    actionListener="#{carrinhoC.irCarrinho}"
+                                                    action="/cliente/carrinho.xhtml" 
+                                                    icon="ui-icon-cart"  />
+
+                                        <p:menuitem value="Logout"
+                                                    onclick="document.location='#{request.contextPath}/j_spring_security_logout'"
+                                                    action="/publico/index.xhtml" 
+                                                    icon="ui-icon-power" />
+                                                
+				</p:submenu>
+                           
+				
+			</p:panelMenu>	
+		</h:form>
+</ui:define>
+    
+   <ui:define  name="corpo">  
+       <h:form id="pg">
+        <div align="center">
+			<f:facet name="header">
+				<p:outputLabel value="Formas de Pagamento" />
+			</f:facet>
+
+			<p:selectOneRadio layout="responsive" columns="2"
+				value="#{carrinhoC.formaPgto.id}">
+				<f:selectItems value="#{formaPgtoC.listagem}" var="formPag"
+					itemLabel="#{formPag.descricao}" itemValue="#{formPag.id}" />
+				<p:ajax event="change" listener="#{carrinhoC.definParcelas}"
+					update="frm-pagamento-subtotal" />
+			</p:selectOneRadio>
+			<br />
+                    
+
+			<h:form id="frm-pagamento-subtotal">
+				<p:panelGrid columns="2" id="subTotal">
+					<h:outputLabel value="Total" />
+					<h:outputLabel value="#{carrinhoC.pedido.ped_total}" />
+				</p:panelGrid>
+				<br />
+
+                                <p:commandButton value="Finalizar Pedido" action="#{carrinhoC.gravarPed()}" />
+
+				<br />
+				<br />
+
+                                <p:button value="Cancelar" href="#{request.contextPath}/cliente/principal.xhtml"/>
+
+			</h:form>
+
+		</div>
+	
+    </h:form>
+   </ui:define>
+</ui:composition>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+    <resource-ref>
+        <description>DataSource LojaVirtualProgramacao</description>
+        <res-ref-name>jdbc/LojaVirtualProgramacao</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+    
+    <display-name>LojaVirtualProgramacao</display-name>
+    <welcome-file-list>
+        <welcome-file>publico/index.xhtml</welcome-file>
+    </welcome-file-list>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/applicationContext.xml
+            /WEB-INF/applicationContext-security.xml
+        </param-value>
+    </context-param>
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    
+      <!-- Tema do PrimeFaces -->
+    <!-- "afterdark", "afternoon", "afterwork", "aristo", "black-tie", "blitzer", 
+    "bluesky", "casablanca", "cruze", "cupertino", "dark-hive", "dot-luv", "eggplant",
+    "excite-bike", "flick", "glass-x", "home", "hot-sneaks", "humanity", "le-frog",
+    "midnight", "mint-choc", "overcast", "pepper-grinder", "redmond", "rocket", "sam",
+    "smoothness", "south-street", "start", "sunny", "swanky-purse", "trontastic", 
+    "twitter bootstrap", "ui-darkness", "ui-lightness", "vader" -->
+	<context-param>
+			<param-name>primefaces.THEME</param-name>
+			<param-value>adamantium</param-value>
+	</context-param>
+  
+</web-app>

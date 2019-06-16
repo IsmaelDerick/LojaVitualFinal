@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+   <ui:define  name="menu"> 	
+        <h:form>
+            <p:panelMenu style="width:200px" >
+                <p:submenu label="Admiministrador" >
+
+                    <p:menuitem value="Acesso Administrador" outcome="/admin/principal.xhtml"
+                                icon="ui-icon-gear" />
+                    <p:menuitem value="Cadastrar Usuário"
+                                outcome="/admin/cadastro_pessoa.xhtml" icon="ui-icon-plus" />
+                    <p:menuitem value="Lista de Usuários"
+                                outcome="/admin/lista_pessoa.xhtml" icon="ui-icon-person" />
+                    <p:menuitem value="Lista de Formas de Pagamentos"
+                                outcome="/admin/lista_formaPgto.xhtml" icon="ui-icon-gear" />
+                    <p:menuitem value="Logout"
+                                onclick="document.location = '#{request.contextPath}/j_spring_security_logout'"
+                                action="/publico/index.xhtml" 
+                                icon="ui-icon-power" />
+
+                </p:submenu>
+            </p:panelMenu>	
+        </h:form>
+    </ui:define>   
+    
+     <ui:define  name="corpo"> 
+        <h:form id="form">
+
+            <p:dataTable var="pess" value="#{pessoaC.listagem}">
+
+                <f:facet name="header">
+                    <h:outputLabel value="Lista de Pessoas" />
+                </f:facet>
+                <p:column headerText="Código" sortBy="pess.id">
+                    <h:outputText value="#{pess.id}" />
+                </p:column>
+                <p:column headerText="Nome" sortBy="pess.nome">
+                    <h:outputText value="#{pess.nome}" />
+                </p:column>
+                <p:column headerText="CPF" sortBy="pess.cpf">
+                    <h:outputText value="#{pess.cpf}" />
+                </p:column>
+                <p:column headerText="RG" sortBy="pess.rg">
+                    <h:outputText value="#{pess.rg}" />
+                </p:column>
+                <p:column headerText="Data de Nascimento" sortBy="pess.data_nasc">
+                    <h:outputText value="#{pess.data_nasc}" />
+                </p:column>
+                <p:column headerText="Rua" sortBy="pess.rua">
+                    <h:outputText value="#{pess.rua}" />
+                </p:column>
+                <p:column headerText="Bairro" sortBy="pess.bairro">
+                    <h:outputText value="#{pess.bairro}" />
+                </p:column>
+                <p:column headerText="Cidade" sortBy="pess.cidade">
+                    <h:outputText value="#{pess.cidade}" />
+                </p:column>
+                <p:column headerText="UF" sortBy="pess.uf">
+                    <h:outputText value="#{pess.uf}" />
+                </p:column>
+                <p:column headerText="CEP" sortBy="pess.cep">
+                    <h:outputText value="#{pess.cep}" />
+                </p:column>
+                <p:column headerText="Email" sortBy="pess.email">
+                    <h:outputText value="#{pess.email}" />
+                </p:column>
+                <p:column headerText="Senha" sortBy="pess.senha">
+                    <h:outputText value="#{pess.senha}" />
+                </p:column>
+                <p:column headerText="Tipo" sortBy="pess.tipo">
+                    <h:outputText value="#{pess.tipo}" />
+                </p:column>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:cadDetail"
+                                     oncomplete="PF('cadDialog').show()" icon="ui-icon-closethick"
+                                     title="Delet">
+                        <f:setPropertyActionListener value="#{pess}" target="#{pessoaC.pessoa}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <p:dialog header="Cadastro de Pessoas" widgetVar="cadDialog"
+                      modal="true"  resizable="false">
+                <p:outputPanel id="cadDetail" style="text-align:center;">
+                    <div align="center">
+                        <h:panelGrid columns="1" style="text-align:Left">
+                            <h:outputLabel value="Deseja excluir:" />
+                            <h:outputLabel value="#{pessoaC.pessoa.nome}"/>
+                        </h:panelGrid>
+                        <p:commandButton value="Excluir" action="#{pessoaC.deletPessoa}" update="form" />
+                        <p:commandButton value="Cancelar" oncomplete="cadDialog.hide()" />
+                    </div>
+                </p:outputPanel>
+
+
+
+            </p:dialog>
+        </h:form>
+     </ui:define>
+</ui:composition>

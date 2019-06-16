@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+   <ui:define  name="menu"> 	
+        <h:form>
+            <p:panelMenu style="width:200px" >
+                <p:submenu label="Admiministrador" >
+
+                    <p:menuitem value="Acesso Administrador" outcome="/admin/principal.xhtml"
+                                icon="ui-icon-gear" />
+                    <p:menuitem value="Cadastrar Usuário"
+                                outcome="/admin/cadastro_pessoa.xhtml" icon="ui-icon-plus" />
+                    <p:menuitem value="Lista de Usuários"
+                                outcome="/admin/lista_pessoa.xhtml" icon="ui-icon-person" />
+                    <p:menuitem value="Lista de Formas de Pagamentos"
+                                outcome="/admin/lista_formaPgto.xhtml" icon="ui-icon-gear" />
+                    <p:menuitem value="Logout"
+                                onclick="document.location = '#{request.contextPath}/j_spring_security_logout'"
+                                action="/publico/index.xhtml" 
+                                icon="ui-icon-power" />
+
+                </p:submenu>
+            </p:panelMenu>	
+        </h:form>
+    </ui:define>   
+  
+    <ui:define  name="corpo">
+    <h:form id="form">
+           
+            <p:panel id="cadDetail">
+                <div align="center">
+                    
+                    
+                    <p:dialog header="Cadastro" widgetVar="cadDialog"            
+                              modal="true" showEffect="fade" resizable="true"></p:dialog>
+                              
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputLabel value="Cadastro de Pessoas" />
+                        </f:facet>
+                        <h:outputLabel value="Nome" />
+                        <p:inputText value="#{pessoaC.pessoa.nome}" />
+                        <h:outputLabel value="CPF" />
+                        <p:inputText value="#{pessoaC.pessoa.cpf}" />
+                        <h:outputLabel value="RG" />
+                        <p:inputText value="#{pessoaC.pessoa.rg}" />
+                        <h:outputLabel value="Rua" />
+                        <p:inputText value="#{pessoaC.pessoa.rua}" />
+                        <h:outputLabel value="Bairro" />
+                        <p:inputText value="#{pessoaC.pessoa.bairro}" />
+                        <h:outputLabel value="Cidade" />
+                        <p:inputText value="#{pessoaC.pessoa.cidade}" />
+                        <h:outputLabel value="UF" />
+                        <p:selectOneMenu value="#{pessoaC.pessoa.uf}">
+                            <f:selectItem itemValue="AC" itemLabel="AC" />
+                            <f:selectItem itemValue="AL" itemLabel="AL" />
+                            <f:selectItem itemValue="AP" itemLabel="AP" />
+                            <f:selectItem itemValue="AM" itemLabel="AM" />
+                            <f:selectItem itemValue="BA" itemLabel="BA" />
+                            <f:selectItem itemValue="CE" itemLabel="CE" />
+                            <f:selectItem itemValue="DF" itemLabel="DF" />
+                            <f:selectItem itemValue="ES" itemLabel="ES" />
+                            <f:selectItem itemValue="GO" itemLabel="GO" />
+                            <f:selectItem itemValue="MA" itemLabel="MA" />
+                            <f:selectItem itemValue="MT" itemLabel="MT" />
+                            <f:selectItem itemValue="MS" itemLabel="MS" />
+                            <f:selectItem itemValue="MG" itemLabel="MG" />
+                            <f:selectItem itemValue="PA" itemLabel="PA" />
+                            <f:selectItem itemValue="PB" itemLabel="PB" />
+                            <f:selectItem itemValue="PR" itemLabel="PR" />
+                            <f:selectItem itemValue="PE" itemLabel="PE" />
+                            <f:selectItem itemValue="PI" itemLabel="PI" />
+                            <f:selectItem itemValue="RJ" itemLabel="RJ" />
+                            <f:selectItem itemValue="RN" itemLabel="RN" />
+                            <f:selectItem itemValue="RS" itemLabel="RS" />
+                            <f:selectItem itemValue="RO" itemLabel="RO" />
+                            <f:selectItem itemValue="RR" itemLabel="RR" />
+                            <f:selectItem itemValue="SC" itemLabel="SC" />
+                            <f:selectItem itemValue="SP" itemLabel="SP" />
+                            <f:selectItem itemValue="SE" itemLabel="SE" />
+                            <f:selectItem itemValue="TO" itemLabel="TO" />
+                        </p:selectOneMenu>
+                        <h:outputLabel value="CEP" />
+                        <p:inputText value="#{pessoaC.pessoa.cep}" />
+                        <h:outputLabel value="Data de Nascimento" />
+                        <p:calendar id="mask" value="#{pessoaC.pessoa.data_nasc}"
+                                    pattern="dd-MM-yyyy" mask="true" />
+                        <h:outputLabel value="Email" />
+                        <p:inputText value="#{pessoaC.pessoa.email}" />
+                        <h:outputLabel value="Senha" />
+                        <p:inputText value="#{pessoaC.pessoa.senha}" />
+                        <h:outputLabel value="Tipo" />
+                        <p:selectOneMenu value="#{pessoaC.pessoa.tipo}">
+                            <f:selectItem itemValue="ROLE_CLIENTE" itemLabel="Cliente" />
+                        
+                            <f:selectItem itemValue="ROLE_ADMINISTRADOR"
+                                          itemLabel="Administrador" />
+                        </p:selectOneMenu>
+                  
+                    </p:panelGrid>
+                    <br></br>
+                    <p:commandButton  value="Gravar" actionListener="#{pessoaC.actionGravar()}"
+                                      update="form" oncomplete="PF('cadDialog').hide()"
+                                      onsuccess="#{request.contextPath}/publico/login.xhtml"
+                                      icon="ui-icon-disk"  />
+                    <p:button value="Cancelar" href="#{request.contextPath}/publico/index.xhtml"/>
+                </div>
+            </p:panel>
+        </h:form>
+   </ui:define> 
+    
+</ui:composition>

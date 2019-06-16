@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    
+         <ui:define  name="menu"> 	
+		<h:form id="menuPublico">
+			<p:panelMenu style="width:200px" >
+				<p:submenu label="MENU" >
+                                      <p:menuitem value="Inicio"
+                                                    action="/publico/index.xhtml" 
+                                                    icon="ui-icon-home" />
+   					<p:menuitem value="Login"
+                                                    action="/publico/login.xhtml" 
+                                                    icon="ui-icon-key" />
+                                        
+                                        <p:menuitem value="Carrinho de Compras"
+                                                    actionListener="#{carrinhoC.irCarrinho}"
+                                                    action="/publico/carrinho.xhtml" 
+                                                    icon="ui-icon-cart"  />
+                                        <p:menuitem value="Cadastrar"
+                                                    action="/publico/cadastro_pessoa.xhtml" 
+                                                    icon="ui-icon-person" />
+				</p:submenu>
+                           
+				
+			</p:panelMenu>	
+		</h:form>
+</ui:define>
+
+ <ui:define  name="corpo"> 
+
+        <h:form id="form">
+
+            <div align="center">
+                <p:dataTable var="pro" value="#{produtoC.listagem}">
+                    <f:facet name="header">
+                        <h:outputLabel value="Lista de Produtos" />
+                    </f:facet>
+                    <p:column headerText="Código" sortBy="pro.id">
+                        <h:outputText value="#{pro.id}" />
+                    </p:column>
+                    <p:column headerText="Nome" sortBy="pro.nome">
+                        <h:outputText value="#{pro.nome}" />
+                    </p:column>
+                    <p:column headerText="Preco" sortBy="pro.preco">
+                        <h:outputText value="#{pro.preco}" />
+                    </p:column>
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton update="form"
+                                         oncomplete="PF('cadDialog').show()" icon="ui-icon-pencil"
+                                         title="Edit">
+                            <f:setPropertyActionListener value="#{pro}"
+                                                         target="#{produtoC.produto}" />
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+                <p:commandButton value="Adicionar Produto" icon="ui-icon-plus"
+                                 actionListener="#{produtoC.insertProd}"
+                                 oncomplete="PF('cadDialog').show()" update="form">
+                </p:commandButton>
+            </div>
+
+            <p:dialog header="Cadastro de Produtos" widgetVar="cadDialog"
+                      modal="true" resizable="false">
+                <p:outputPanel id="cadDetail" style="text-align:center;">
+                    <h:panelGrid columns="2" style="text-align:Left">
+                        <h:outputLabel value="Nome" />
+                        <p:inputText value="#{produtoC.produto.nome}" size="30"
+                                     maxlength="60" />
+                        <h:outputLabel value="Preço" />
+                        <p:inputText value="#{produtoC.produto.preco}" size="6"
+                                     maxlength="6" />
+                    </h:panelGrid>
+                    <p:commandButton value="Excluir" action="#{produtoC.deletProd}" update="form" />
+                    <p:commandButton value="Gravar" action="#{produtoC.gravarProd}" update="form" />
+                    <p:commandButton value="Cancelar" oncomplete="cadDialog.hide()" />
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+ </ui:define>
+</ui:composition>
